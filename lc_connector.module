@@ -299,6 +299,21 @@ function lc_connector_url_outbound_alter(&$path, array &$options, $original_path
     LCConnector_Handler::callSafely('Module', 'translateOutboundURL', array(&$path, &$options, $original_path));
 }
 
+/**
+ * Returns lc_connector specific permissions
+ *
+ * @hook   permission
+ * @return array
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function lc_connector_permission() {
+  return array(
+    'lc admin' => array(
+      'title' => t('LiteCommerce administrator'),
+    ),
+  );
+}
 
 /**
  * Check access for current LC controller

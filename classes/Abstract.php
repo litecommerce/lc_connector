@@ -45,6 +45,48 @@ abstract class LCConnector_Abstract
      */
     protected static $isLCConnected;
 
+    /**
+     * Container to store some temporary data
+     *
+     * @var    array
+     * @access protected
+     * @see    ____var_see____
+     * @since  1.0.0
+     */
+    protected static $tmpData;
+
+
+    /**
+     * Set temporary data variable
+     *
+     * @param string $name Variable name
+     * @param mixed  $value Variable value
+     *
+     * @return void
+     * @access protected
+     * @see    ____func_see____
+     * @since  1.0.0
+     */
+    public static function saveVariable($name, $value)
+    {
+        self::$tmpData[$name] = $value;
+    }
+
+    /**
+     * Get stored variable
+     *
+     * @param string $name         Variable name
+     * @param mixed  $defaultValue Default value
+     *
+     * @return void
+     * @access protected
+     * @see    ____func_see____
+     * @since  1.0.0
+     */
+    public static function getVariable($name, $defaultValue = null)
+    {
+        return (isset(self::$tmpData[$name])) ? self::$tmpData[$name] : $defaultValue;
+    }
 
     // ------------------------------ LC-related methods -
 

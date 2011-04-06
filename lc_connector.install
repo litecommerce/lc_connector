@@ -89,9 +89,17 @@ function lc_connector_get_database_params()
 
         $dbParams = array();
 
-        if (!empty($databases['default']['default'])) {
+        $mysql = null;
 
+        if (!empty($databases['default']['default'])) {
             $mysql = $databases['default']['default'];
+        
+        } elseif ('POST' == $_SERVER['REQUEST_METHOD'] && !empty($_POST['mysql'])) {
+            $mysql = $_POST['mysql'];
+            $mysql['driver'] = 'mysql';
+        }
+
+        if (!empty($mysql)) {
 
             $dbParams['mysqluser'] = $mysql['username'];
             $dbParams['mysqlpass'] = $mysql['password'];

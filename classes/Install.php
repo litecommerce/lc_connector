@@ -236,7 +236,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract
 
             if (isset($dbParams['driver']) && 'mysql' != $dbParams['driver']) {
                 $requirements['lc_mysql_needed'] = array(
-                    'description' => 'LiteCommerce software does not support the specified database type: ', $db_type . '(' . $db_url . ')',
+                    'description' => 'LiteCommerce software does not support the specified database type: ' . $db_type . '(' . $db_url . ')',
                     'severity' => REQUIREMENT_ERROR
                 );
                 $stopChecking = true;
@@ -262,7 +262,14 @@ abstract class LCConnector_Install extends LCConnector_Abstract
                     define('DB_URL', serialize($dbParams));
                 }
 
-                $requirements = doCheckRequirements();
+                $requirements['lc_already_installed'] = array(
+                    'title'       => 'Installation status',
+                    'value'       => 'LiteCommerce software is not installed',
+                    'description' => $message,
+                    'status'      => true,
+                );
+
+                $requirements = array_merge($requirements, doCheckRequirements());
 
                 foreach ($requirements as $reqName => $reqData) {
 

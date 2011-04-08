@@ -21,7 +21,7 @@
  * 
  * @package XLite
  * @see     ____class_see____
- * @since   3.0.0
+ * @since   1.0.0
  */
 abstract class LCConnector_Admin extends LCConnector_Abstract
 {
@@ -31,7 +31,7 @@ abstract class LCConnector_Admin extends LCConnector_Abstract
      * @return array
      * @access public
      * @see    ____func_see____
-     * @since  3.0.0
+     * @since  1.0.0
      */
     public static function getModuleSettingsForm()
     {

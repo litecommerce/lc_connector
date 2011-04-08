@@ -21,7 +21,7 @@
  *
  * @return array
  * @see    ____func_see____
- * @since  3.0.0
+ * @since  1.0.0
  */
 function lc_connector_get_settings_form()
 {

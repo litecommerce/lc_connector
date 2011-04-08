@@ -31,7 +31,7 @@ abstract class LCConnector_Abstract
      * @var    array
      * @access protected
      * @see    ____var_see____
-     * @since  3.0.0
+     * @since  1.0.0
      */
     protected static $moduleInfo;
 
@@ -152,7 +152,7 @@ abstract class LCConnector_Abstract
      * @return array|string
      * @access protected
      * @see    ____func_see____
-     * @since  3.0.0
+     * @since  1.0.0
      */
     protected static function getModuleInfo($field = null)
     {
@@ -206,7 +206,7 @@ abstract class LCConnector_Abstract
      * @return \XLite\Module\CDev\DrupalConnector\Drupal\ADrupal
      * @access protected
      * @see    ____func_see____
-     * @since  3.0.0
+     * @since  1.0.0
      */
     protected static function getLCClassInstance($class)
     {
@@ -223,7 +223,7 @@ abstract class LCConnector_Abstract
      * @return mixed
      * @access public
      * @see    ____func_see____
-     * @since  3.0.0
+     * @since  1.0.0
      */
     public static function callDirectly($class, $method, array $args = array())
     {
@@ -240,7 +240,7 @@ abstract class LCConnector_Abstract
      * @return mixed
      * @access public
      * @see    ____func_see____
-     * @since  3.0.0
+     * @since  1.0.0
      */
     public static function callSafely($class, $method, array $args = array())
     {

@@ -87,6 +87,8 @@ abstract class LCConnector_Install extends LCConnector_Abstract
     {
         $description = array('description' => t('LC class'), 'type' => 'varchar', 'length' => 255);
         db_add_field('block_custom', 'lc_class', $description);
+
+        self::callSafely('Module', 'setDrupalRootURL', array(rtrim(lc_connector_detect_drupal_baseurl(), '/') . '/'));   
     }
 
     /**

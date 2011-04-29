@@ -355,6 +355,27 @@ function lc_connector_url_outbound_alter(&$path, array &$options, $original_path
 }
 
 /**
+ * Alters inbound URLs
+ *
+ * @param string &$path         Path
+ * @param string $original_path Original path
+ * @param string $path_language Path language
+ *
+ * @hook   url_inbound_alter
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function lc_connector_url_inbound_alter(&$path, $original_path, $path_language)
+{
+    LCConnector_Handler::callSafely(
+        'Module',
+        'translateInboundURL',
+        array(&$path, $original_path, $path_language)
+    );
+}
+
+/**
  * Returns lc_connector specific permissions
  *
  * @hook   permission
@@ -363,11 +384,11 @@ function lc_connector_url_outbound_alter(&$path, array &$options, $original_path
  * @since  1.0.0
  */
 function lc_connector_permission() {
-  return array(
-    'lc admin' => array(
-      'title' => t('LiteCommerce administrator'),
-    ),
-  );
+    return array(
+        'lc admin' => array(
+            'title' => t('LiteCommerce administrator'),
+        ),
+    );
 }
 
 /**

@@ -494,3 +494,33 @@ function lc_connector_user_admin_permissions_submit($form, &$form_state)
     return LCConnector_Handler::callSafely('Profile', 'performAction', array('updateRoles', &$roles, new \stdClass(), null));
 }
 
+/**
+ * Update variables array passed to the template
+ *  
+ * @param array &$variables Array of variables
+ *
+ * @hook   template_process_page
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function lc_connector_process_page(&$variables)
+{
+    LCConnector_Handler::callSafely('Controller', 'updateTemplateVars', array(&$variables));
+}
+
+/**
+ * Update meta tags array passed to the template
+ *  
+ * @param array &$elements Array of meta tags
+ *
+ * @hook   html_head_alter
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function lc_connector_html_head_alter(&$elements)
+{
+    LCConnector_Handler::callSafely('Controller', 'updateMetaTags', array(&$elements));
+}
+

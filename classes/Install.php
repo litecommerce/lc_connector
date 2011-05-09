@@ -228,8 +228,10 @@ abstract class LCConnector_Install extends LCConnector_Abstract
         if (isLiteCommerceInstalled($dbParams, $message)) {
 
             $requirements['lc_already_installed'] = array(
-                'description' => st('The installed LiteCommerce software found. It means that LiteCommerce will not be installed.'),
-                'severity' => REQUIREMENT_WARNING
+                'title'       => 'Installation status',
+                'value'       => st('The installed LiteCommerce software found. It means that LiteCommerce will not be installed.'),
+                'description' => $message,
+                'severity'    => REQUIREMENT_WARNING
             );
         
         } else {

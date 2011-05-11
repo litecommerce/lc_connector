@@ -376,6 +376,22 @@ function lc_connector_url_inbound_alter(&$path, $original_path, $path_language)
 }
 
 /**
+ * Process cron tasks
+ *
+ * @hook   cron
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function lc_connector_cron()
+{
+    LCConnector_Handler::callSafely(
+        'Module',
+        'runCronTasks'
+    );
+}
+
+/**
  * Returns lc_connector specific permissions
  *
  * @hook   permission

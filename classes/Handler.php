@@ -10,7 +10,6 @@
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2010 Creative Development LLC <info@cdev.ru>. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @version   SVN: $Id: Handler.php 4842 2011-01-10 21:29:14Z vvs $
  * @link      http://www.litecommerce.com/
  * @see       ____file_see____
  * @since     1.0.0

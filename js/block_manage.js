@@ -9,7 +9,6 @@
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2010 Creative Development LLC <info@cdev.ru>. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @version   SVN: $Id: block_manage.js 2646 2010-04-16 07:50:13Z max $
  * @link      http://www.litecommerce.com/
  * @see       ____file_see____
  * @since     1.0.0

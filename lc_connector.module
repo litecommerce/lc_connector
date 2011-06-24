@@ -539,3 +539,32 @@ function lc_connector_html_head_alter(&$elements)
     LCConnector_Handler::callSafely('Controller', 'updateMetaTags', array(&$elements));
 }
 
+/**
+ * Do user accounts synchronization in batch mode
+ *
+ * @param array &$context Batch process context data
+ *
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function _lc_connector_user_sync(&$context)
+{
+    LCConnector_Handler::callSafely('UserSync', 'doUserSynchronization', array(&$context));
+}
+
+/**
+ * Finalize user accounts synchronization batch process
+ *
+ * @param boolean $success    Batch process status
+ * @param array   $results    Batch process results array
+ * @param array   $operations Batch process operations array
+ *
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function _lc_connector_user_sync_finished_callback($success, $results, $operations)
+{
+    LCConnector_Handler::callSafely('UserSync', 'doUserSyncFinished', array($success, $results, $operations));
+}

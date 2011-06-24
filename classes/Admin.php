@@ -24,20 +24,28 @@
  */
 abstract class LCConnector_Admin extends LCConnector_Abstract
 {
+    /*
+     * LC Connector settings form button label
+     */
     const OP_NAME_SETTINGS = 'Save';
-    const OP_NAME_USERSYNC = 'Synchronize user accounts';
+
 
     /**
      * Return form description for the module settings
      *
      * @return array
-     * @access public
      * @see    ____func_see____
      * @since  1.0.0
      */
     public static function getModuleSettingsForm()
     {
+        variable_del('lc_user_sync_notify');
+
         $form['lcc'] = array();
+
+        if (variable_get('lc_dir', false) && !self::isLCExists()) {
+            drupal_set_message(t('LiteCommerce software not found in the specified directory'), 'error');
+        }
 
         $form['lcc']['settings'] = array(
             '#type'  => 'fieldset',
@@ -55,31 +63,9 @@ abstract class LCConnector_Admin extends LCConnector_Abstract
             ),
         );
 
-        $form['lcc']['usersync'] = array(
-            '#type' => 'fieldset',
-            '#title' => t('User accounts synchronization'),
+        self::callSafely('UserSync', 'addUserSyncForm', array(&$form));
 
-            '#description' => <<<OUT
-<p>Non-synchronized user accounts were found in the Drupal and LiteCommerce databases. This means that when user is logged in to the Drupal site he/she if hasn't a LiteCommerce account cannot use the catalog of products as a registered user. By clicking on the button below Drupal and LiteCommerce account will be linked with the following rules:</p>
-<ul>
-<li>If non-linked accounts with same email presented both in Drupal and LiteCommerce databases then these account will be linked</li>
-<li>If account presented in Drupal but missed in LiteCommerce database then the linked account will be created in LiteCommerce database with randomly generated password and the same email as Drupal account has</li>
-<li>If account presented in LiteCommerce but missed in Drupal database then the linked account will be created in Drupal database with randomly generated password and the same email as LiteCommerce account has</li>
-</ul>
-<p>Tick the checkbox below to send notifications with links to reset password to the users who will get new Drupal accounts.</p>
-OUT
-,
-            'notify_users' => array(
-                '#type' => 'checkbox',
-                '#return_value' => 1,
-                '#title' => t('Require password reset for new Drupal accounts')
-            ),
-            'submit' => array(
-                '#type' => 'submit',
-                '#value' => t(self::OP_NAME_USERSYNC),
-            ),
-
-        );
+        $form['#validate'][] = 'lc_connector_validate_settings_form';
 
         $form['#submit'][] = 'lc_connector_submit_settings_form';
 
@@ -92,13 +78,52 @@ OUT
     }
 
     /**
+     * Validate module settings form
+     *
+     * @param array &$form      Form description
+     * @param array &$formState Form state
+     *
+     * @return void
+     * @see    ____func_see____
+     * @since  1.0.0
+     */
+    public static function validateModuleSettingsForm(array &$form, array &$formState)
+    {
+        $message = null;
+
+        // Check if LiteCommerce exists in the specified directory
+        if (t(self::OP_NAME_SETTINGS) == $formState['values']['op']) {
+
+            if (!empty($formState['values']['lc_dir'])) {
+                
+                // Backup of lc_dir option
+                $lcDirOrig = variable_get('lc_dir');
+
+                // Set new value to lc_dir 
+                variable_set('lc_dir', $formState['values']['lc_dir']);
+
+                // Check if LC exists in directory specified by the options 'lc_dir'
+                if (!self::isLCExists()) {
+                    $message = t('LiteCommerce software not found in the specified directory (:dir)', array(':dir', $formState['values']['lc_dir']));
+                }
+
+                // Restore original value of lc_dir to allow submitModuleSettingsForm() method modify it
+                variable_set('lc_dir', $lcDirOrig);
+            }
+
+            if ($message) {
+                form_error($form['lcc']['settings']['lc_dir'], $message, 'error');
+            }
+        }
+    }
+
+    /**
      * Submit module settings form
      *
      * @param array &$form      Form description
      * @param array &$formState Form state
      *
      * @return void
-     * @access public
      * @see    ____func_see____
      * @since  1.0.0
      */
@@ -111,10 +136,9 @@ OUT
                 drupal_set_message(t('The configuration options have been saved.'));
                 break;
 
-            case t(self::OP_NAME_USERSYNC):
+           default:
                 // Run user accounts synchronization routine
-                //(bool)$form_state['values']['notify_users'];
-                drupal_set_message(t('User accounts have been synchronized.'));
+                self::callSafely('UserSync', 'processUserSyncFormSubmit', array(&$form, &$formState));
                 break;
         }
     }

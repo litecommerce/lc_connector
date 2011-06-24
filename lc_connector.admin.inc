@@ -28,6 +28,21 @@ function lc_connector_get_settings_form()
 }
 
 /**
+ * Validate module settings form
+ *
+ * @param array &$form      Form description
+ * @param array &$formState Form state
+ *
+ * @return void
+ * @see    ____func_see____
+ * @since  1.0.0
+ */
+function lc_connector_validate_settings_form(array &$form, array &$formState)
+{
+    return LCConnector_Admin::validateModuleSettingsForm(&$form, &$formState);
+}
+
+/**
  * Submit module settings form
  *
  * @param array &$form      Form description
@@ -39,5 +54,5 @@ function lc_connector_get_settings_form()
  */
 function lc_connector_submit_settings_form(array &$form, array &$formState)
 {
-    return LCConnector_Admin::submitModuleSettingsForm($form, $formState);
+    return LCConnector_Admin::submitModuleSettingsForm(&$form, &$formState);
 }

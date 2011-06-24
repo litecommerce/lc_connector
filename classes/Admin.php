@@ -104,7 +104,7 @@ abstract class LCConnector_Admin extends LCConnector_Abstract
 
                 // Check if LC exists in directory specified by the options 'lc_dir'
                 if (!self::isLCExists()) {
-                    $message = t('LiteCommerce software not found in the specified directory (:dir)', array(':dir', $formState['values']['lc_dir']));
+                    $message = t('LiteCommerce software not found in the specified directory (:dir)', array(':dir' => $formState['values']['lc_dir']));
                 }
 
                 // Restore original value of lc_dir to allow submitModuleSettingsForm() method modify it

@@ -11,20 +11,17 @@
  * @copyright Copyright (c) 2010 Creative Development LLC <info@cdev.ru>. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
  * @link      http://www.litecommerce.com/
- * @see       ____file_see____
  * @since     1.0.0
  */
 
 /**
  * Module tables schema
- * 
+ *
  * @hook   schema
  * @return void
- * @see    ____func_see____
  * @since  1.0.0
  */
-function lc_connector_schema()
-{
+function lc_connector_schema() {
     return LCConnector_Install::getSchema();
 }
 
@@ -33,11 +30,9 @@ function lc_connector_schema()
  *
  * @hook   install
  * @return void
- * @see    ____func_see____
  * @since  1.0.0
  */
-function lc_connector_install()
-{
+function lc_connector_install() {
     LCConnector_Install::performInstall();
 }
 
@@ -46,24 +41,22 @@ function lc_connector_install()
  *
  * @hook   uninstall
  * @return void
- * @see    ____func_see____
  * @since  1.0.0
  */
-function lc_connector_uninstall()
-{
+function lc_connector_uninstall() {
     LCConnector_Install::performUninstall();
 }
 
 /**
- * Implementation of hook_requirements()
+ * Implementation hook_requirements()
+ *
+ * @param string $phase Installetion type
  *
  * @hook   requirements
  * @return array
- * @see    ____func_see____
  * @since  1.0.0
  */
-function lc_connector_requirements($phase)
-{
+function lc_connector_requirements($phase) {
     return LCConnector_Install::checkRequirements($phase);
 }
 
@@ -75,50 +68,50 @@ function lc_connector_requirements($phase)
  * Returns an array of database connection parameters
  *
  * @return array
- * @see    ____func_see____
  * @since  1.0.0
  */
-function lc_connector_get_database_params()
-{
-    $dbParams = &drupal_static(__FUNCTION__, null);
+function lc_connector_get_database_params() {
+    $db_params = &drupal_static(__FUNCTION__, NULL);
 
-    if (!isset($dbParams)) {
+    if (!isset($db_params)) {
 
         global $databases;
 
-        $dbParams = array();
+        $db_params = array();
 
-        $mysql = null;
+        $mysql = NULL;
 
         if (!empty($databases['default']['default'])) {
             $mysql = $databases['default']['default'];
-        
-        } elseif ('POST' == $_SERVER['REQUEST_METHOD'] && !empty($_POST['mysql'])) {
-            $mysql = $_POST['mysql'];
+
+        }
+        elseif ('POST' == $_SERVER['REQUEST_METHOD'] && !empty($_POST['mysql'])) {
+            $mysql = check_plain($_POST['mysql']);
             $mysql['driver'] = 'mysql';
         }
 
         if (!empty($mysql)) {
 
-            $dbParams['mysqluser'] = $mysql['username'];
-            $dbParams['mysqlpass'] = $mysql['password'];
-            $dbParams['mysqlhost'] = $mysql['host'];
-            $dbParams['mysqlport'] = isset($mysql['port']) ? $mysql['port'] : '';
-            $dbParams['mysqlsock'] = isset($mysql['unix_socket']) ? $mysql['unix_socket'] : '';
-            $dbParams['mysqlbase'] = $mysql['database'];
+            $db_params['mysqluser'] = $mysql['username'];
+            $db_params['mysqlpass'] = $mysql['password'];
+            $db_params['mysqlhost'] = $mysql['host'];
+            $db_params['mysqlport'] = isset($mysql['port']) ? $mysql['port'] : '';
+            $db_params['mysqlsock'] = isset($mysql['unix_socket']) ? $mysql['unix_socket'] : '';
+            $db_params['mysqlbase'] = $mysql['database'];
 
             if (isset($mysql['db_prefix'])) {
-                $dbParams['drupal_prefix'] = $mysql['db_prefix'];
+                $db_params['drupal_prefix'] = $mysql['db_prefix'];
 
-            } elseif (isset($mysql['prefix'])) {
-                $dbParams['drupal_prefix'] = $mysql['prefix'];
+            }
+            elseif (isset($mysql['prefix'])) {
+                $db_params['drupal_prefix'] = $mysql['prefix'];
             }
 
-            $dbParams['driver'] = $mysql['driver'];
+            $db_params['driver'] = $mysql['driver'];
         }
     }
 
-    return $dbParams;
+    return $db_params;
 }
 
 /**
@@ -126,19 +119,18 @@ function lc_connector_get_database_params()
  * Returns a absolute path of a directory or null if not found
  *
  * @return string
- * @see    ____func_see____
  * @since  1.0.0
  */
-function lc_connector_get_litecommerce_dir()
-{
-    $result = &drupal_static(__FUNCTION__, null);
+function lc_connector_get_litecommerce_dir() {
+    $result = &drupal_static(__FUNCTION__, NULL);
 
     if (!isset($result)) {
 
         if (!LCConnector_Install::isLCExists()) {
             drupal_set_message(st('Installation cannot proceed because of LiteCommerce software not found. LiteCommerce software is a part of Ecommerce CMS package and it must be located within LC connector module directory.'), 'error');
-        
-        } else {
+
+        }
+        else {
             $result = LCConnector_Install::getLCCanonicalDir();
         }
     }
@@ -148,9 +140,11 @@ function lc_connector_get_litecommerce_dir()
 
 /**
  * Returns Drupal URL (original drupal_detect_baseurl() corrected to support aliases)
+ *
+ * @return string
+ * @since  1.0.0
  */
-function lc_connector_detect_drupal_baseurl()
-{
+function lc_connector_detect_drupal_baseurl() {
     $url = drupal_detect_baseurl();
 
     if (preg_match('/\.php(.*)$/', basename($url))) {
@@ -158,8 +152,8 @@ function lc_connector_detect_drupal_baseurl()
     }
 
     if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] != $_SERVER['SERVER_NAME']) {
-        $parsedUrl = parse_url($url);
-        $url = str_replace($parsedUrl['host'], $_SERVER['HTTP_HOST'], $url);
+        $parsed_url = parse_url($url);
+        $url = str_replace($parsed_url['host'], $_SERVER['HTTP_HOST'], $url);
     }
 
     return $url;
@@ -167,8 +161,8 @@ function lc_connector_detect_drupal_baseurl()
 
 // Include some scripts if not loaded yet
 if (!class_exists('LCConnector_Install')) {
-    $currentDir = dirname(__FILE__);
-    require_once $currentDir . '/classes/Abstract.php';
-    require_once $currentDir . '/classes/Install.php';
+    $current_dir = dirname(__FILE__);
+    require_once $current_dir . '/classes/Abstract.php';
+    require_once $current_dir . '/classes/Install.php';
 }
 

@@ -131,7 +131,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract
                 $requirements = self::checkRequirementsUpdate();
             }
         
-        } elseif (defined('XLITE_INSTALL_MODE')) {
+        } else {
 
             // LiteCommerce is not found at all: requirements failed
             $requirements['lc_not_found'] = array(
@@ -154,6 +154,10 @@ abstract class LCConnector_Install extends LCConnector_Abstract
     public static function includeLCFiles()
     {
         $errorMsg = null;
+
+        if (!defined('XLITE_INSTALL_MODE')) {
+            define('XLITE_INSTALL_MODE', true);
+        }
 
         $includeFiles = array(
             'Includes/install/init.php',

@@ -8,7 +8,7 @@
  * @category  Litecommerce connector
  * @package   Litecommerce connector
  * @author    Creative Development LLC <info@cdev.ru>
- * @copyright Copyright (c) 2010 Creative Development LLC <info@cdev.ru>. All rights reserved
+ * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
  * @link      http://www.litecommerce.com/
  * @since     1.0.0
@@ -50,7 +50,7 @@ function lc_connector_uninstall() {
 /**
  * Implementation hook_requirements()
  *
- * @param string $phase Installetion type
+ * @param string $phase Installation type
  *
  * @hook   requirements
  * @return array
@@ -59,110 +59,3 @@ function lc_connector_uninstall() {
 function lc_connector_requirements($phase) {
     return LCConnector_Install::checkRequirements($phase);
 }
-
-
-
-// --------------- FIXME: all of the code below must be revised -
-
-/**
- * Returns an array of database connection parameters
- *
- * @return array
- * @since  1.0.0
- */
-function lc_connector_get_database_params() {
-    $db_params = &drupal_static(__FUNCTION__, NULL);
-
-    if (!isset($db_params)) {
-
-        global $databases;
-
-        $db_params = array();
-
-        $mysql = NULL;
-
-        if (!empty($databases['default']['default'])) {
-            $mysql = $databases['default']['default'];
-
-        }
-        elseif ('POST' == $_SERVER['REQUEST_METHOD'] && !empty($_POST['mysql'])) {
-            $mysql = check_plain($_POST['mysql']);
-            $mysql['driver'] = 'mysql';
-        }
-
-        if (!empty($mysql)) {
-
-            $db_params['mysqluser'] = $mysql['username'];
-            $db_params['mysqlpass'] = $mysql['password'];
-            $db_params['mysqlhost'] = $mysql['host'];
-            $db_params['mysqlport'] = isset($mysql['port']) ? $mysql['port'] : '';
-            $db_params['mysqlsock'] = isset($mysql['unix_socket']) ? $mysql['unix_socket'] : '';
-            $db_params['mysqlbase'] = $mysql['database'];
-
-            if (isset($mysql['db_prefix'])) {
-                $db_params['drupal_prefix'] = $mysql['db_prefix'];
-
-            }
-            elseif (isset($mysql['prefix'])) {
-                $db_params['drupal_prefix'] = $mysql['prefix'];
-            }
-
-            $db_params['driver'] = $mysql['driver'];
-        }
-    }
-
-    return $db_params;
-}
-
-/**
- * Detect the LiteCommerce directory
- * Returns a absolute path of a directory or null if not found
- *
- * @return string
- * @since  1.0.0
- */
-function lc_connector_get_litecommerce_dir() {
-    $result = &drupal_static(__FUNCTION__, NULL);
-
-    if (!isset($result)) {
-
-        if (!LCConnector_Install::isLCExists()) {
-            drupal_set_message(st('Installation cannot proceed because of LiteCommerce software not found. LiteCommerce software is a part of Ecommerce CMS package and it must be located within LC connector module directory.'), 'error');
-
-        }
-        else {
-            $result = LCConnector_Install::getLCCanonicalDir();
-        }
-    }
-
-    return $result;
-}
-
-/**
- * Returns Drupal URL (original drupal_detect_baseurl() corrected to support aliases)
- *
- * @return string
- * @since  1.0.0
- */
-function lc_connector_detect_drupal_baseurl() {
-    $url = drupal_detect_baseurl();
-
-    if (preg_match('/\.php(.*)$/', basename($url))) {
-        $url = dirname($url);
-    }
-
-    if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] != $_SERVER['SERVER_NAME']) {
-        $parsed_url = parse_url($url);
-        $url = str_replace($parsed_url['host'], $_SERVER['HTTP_HOST'], $url);
-    }
-
-    return $url;
-}
-
-// Include some scripts if not loaded yet
-if (!class_exists('LCConnector_Install')) {
-    $current_dir = dirname(__FILE__);
-    require_once $current_dir . '/classes/Abstract.php';
-    require_once $current_dir . '/classes/Install.php';
-}
-

@@ -129,6 +129,10 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
     protected static function includeLCFiles() {
         $errorMsg = NULL;
 
+        if (!defined('XLITE_INSTALL_MODE')) {
+            define('XLITE_INSTALL_MODE', true);
+        }
+
         $includeFiles = array(
             'Includes/install/init.php',
             'Includes/install/install.php',

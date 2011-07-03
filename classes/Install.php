@@ -198,7 +198,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
             if (!empty($databases['default']['default'])) {
                 $mysql = $databases['default']['default'];
             }
-            elseif ('post' == drupal_strtolower($_SERVER['REQUEST_METHOD']) && !empty($_POST['mysql'])) {
+            elseif ('post' == strtolower($_SERVER['REQUEST_METHOD']) && !empty($_POST['mysql'])) {
                 $mysql = check_plain($_POST['mysql']);
                 $mysql['driver'] = 'mysql';
             }

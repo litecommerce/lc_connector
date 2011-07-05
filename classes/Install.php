@@ -150,7 +150,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
             $url = str_replace(parse_url($url, PHP_URL_HOST), $_SERVER['HTTP_HOST'], $url);
         }
 
-        return rtrim($url, '/') . '/';
+        return rtrim($url, '/');
     }
 
     /**

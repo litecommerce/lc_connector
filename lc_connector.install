@@ -62,8 +62,7 @@ function lc_connector_requirements($phase) {
 
 // Include some scripts if not loaded yet
 if (!class_exists('LCConnector_Install')) {
-    $currentDir = dirname(__FILE__);
-    require_once $currentDir . '/classes/Abstract.php';
-    require_once $currentDir . '/classes/Install.php';
+    $current_dir = dirname(__FILE__);
+    require_once $current_dir . '/classes/Abstract.php';
+    require_once $current_dir . '/classes/Install.php';
 }
-

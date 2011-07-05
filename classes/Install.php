@@ -1,5 +1,5 @@
 <?php
-// vim: set ts=4 sw=4 sts=4 et:
+// vim: set ts=4 sw=4 sts=4 et ft=php:
 
 /**
  * @file
@@ -116,7 +116,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      */
     public static function checkRequirements($phase) {
         if (self::includeLCFiles()) {
-            $method = ('install' === $phase) ? 'Install' : 'Update';
+            $method = 'checkRequirements' . ('install' === $phase ? 'Install' : 'Update');
             $requirements = self::$method();
         }
         else {
@@ -199,7 +199,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
                 $mysql = $databases['default']['default'];
             }
             elseif ('post' == strtolower($_SERVER['REQUEST_METHOD']) && !empty($_POST['mysql'])) {
-                $mysql = check_plain($_POST['mysql']);
+                $mysql = $_POST['mysql'];
                 $mysql['driver'] = 'mysql';
             }
 

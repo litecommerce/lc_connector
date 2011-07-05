@@ -1,5 +1,5 @@
 <?php
-// vim: set ts=4 sw=4 sts=4 et:
+// vim: set ts=4 sw=4 sts=4 et ft=php:
 
 /**
  * @file
@@ -59,3 +59,11 @@ function lc_connector_uninstall() {
 function lc_connector_requirements($phase) {
     return LCConnector_Install::checkRequirements($phase);
 }
+
+// Include some scripts if not loaded yet
+if (!class_exists('LCConnector_Install')) {
+    $currentDir = dirname(__FILE__);
+    require_once $currentDir . '/classes/Abstract.php';
+    require_once $currentDir . '/classes/Install.php';
+}
+

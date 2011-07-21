@@ -91,6 +91,21 @@ function lc_connector_form_custom_block_delete_alter(array &$form, array &$form_
 }
 
 /**
+ * Change block definition before saving to the database 
+ *
+ * @param array  $blocks      A multidimensional array of blocks keyed by the defining module and delta
+ * @param string $theme       The theme these blocks belong to
+ * @param array  $code_blocks The blocks as defined in hook_block_info() before being overwritten by the database data
+ *
+ * @hook   block_info_alter
+ * @return void
+ * @since  1.0.0
+ */
+function lc_connector_block_info_alter(array &$blocks, $theme, array $code_blocks) {
+    return LCConnector_Handler::callSafely('Admin', 'alterBlockInfo', array(&$blocks, $theme, $code_blocks));
+}
+
+/**
  * Modify block content
  *
  * @param array     &$data      Data returned from the hook_block_view()

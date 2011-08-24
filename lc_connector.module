@@ -81,7 +81,7 @@ function lc_connector_form_custom_block_delete_alter(array &$form, array &$form_
 }
 
 /**
- * Change block definition before saving to the database 
+ * Change block definition before saving to the database
  *
  * @param array  $blocks      A multidimensional array of blocks keyed by the defining module and delta
  * @param string $theme       The theme these blocks belong to

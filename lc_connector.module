@@ -5,13 +5,8 @@
  * @file
  * General module functionality
  *
- * @category  Litecommerce connector
- * @package   Litecommerce connector
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @link      http://www.litecommerce.com/
- * @since     1.0.0
  */
 
 error_reporting(E_ALL | E_STRICT);
@@ -22,7 +17,6 @@ ini_set('display_errors', TRUE);
  *
  * @hook   init
  * @return void
- * @since  1.0.0
  */
 function lc_connector_init() {
     return LCConnector_Handler::callSafely('Module', 'invokeHookInit');
@@ -33,7 +27,6 @@ function lc_connector_init() {
  *
  * @hook   menu
  * @return array
- * @since  1.0.0
  */
 function lc_connector_menu() {
     return array(
@@ -56,7 +49,6 @@ function lc_connector_menu() {
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_block_add_block_form_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Admin', 'alterWidgetModifyForm', array(&$form, &$form_state));
@@ -70,7 +62,6 @@ function lc_connector_form_block_add_block_form_alter(array &$form, array &$form
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_block_admin_configure_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Admin', 'alterWidgetModifyForm', array(&$form, &$form_state));
@@ -84,7 +75,6 @@ function lc_connector_form_block_admin_configure_alter(array &$form, array &$for
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_custom_block_delete_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Admin', 'alterWidgetDeleteForm', array(&$form, &$form_state));
@@ -99,7 +89,6 @@ function lc_connector_form_custom_block_delete_alter(array &$form, array &$form_
  *
  * @hook   block_info_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_block_info_alter(array &$blocks, $theme, array $code_blocks) {
     return LCConnector_Handler::callSafely('Admin', 'alterBlockInfo', array(&$blocks, $theme, $code_blocks));
@@ -113,7 +102,6 @@ function lc_connector_block_info_alter(array &$blocks, $theme, array $code_block
  *
  * @hook   block_view_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_block_view_alter(array &$data, \stdClass $block) {
     $settings = block_custom_block_get($block->delta);
@@ -130,7 +118,6 @@ function lc_connector_block_view_alter(array &$data, \stdClass $block) {
  *
  * @hook   preprocess_block
  * @return void
- * @since  1.0.0
  */
 function lc_connector_preprocess_block(array &$variables) {
     $settings = block_custom_block_get($variables['block']->delta);
@@ -150,7 +137,6 @@ function lc_connector_preprocess_block(array &$variables) {
  *
  * @hook   user_presave
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_presave(array &$edit, \stdClass $account, $category) {
     return LCConnector_Handler::callSafely('Profile', 'performAction', array('presave', &$edit, $account, $category));
@@ -165,7 +151,6 @@ function lc_connector_user_presave(array &$edit, \stdClass $account, $category) 
  *
  * @hook   user_insert
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_insert(array &$edit, \stdClass $account, $category) {
     $account->passwd = LCConnector_Handler::getVariable('passwd');
@@ -182,7 +167,6 @@ function lc_connector_user_insert(array &$edit, \stdClass $account, $category) {
  *
  * @hook   user_update
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_update(array &$edit, \stdClass $account, $category) {
     $account->passwd = LCConnector_Handler::getVariable('passwd');
@@ -199,7 +183,6 @@ function lc_connector_user_update(array &$edit, \stdClass $account, $category) {
  *
  * @hook   user_cancel
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_cancel(array $edit, \stdClass $account, $category) {
     return LCConnector_Handler::callSafely('Profile', 'performAction', array('cancel', &$edit, $account, $category));
@@ -212,7 +195,6 @@ function lc_connector_user_cancel(array $edit, \stdClass $account, $category) {
  *
  * @hook   user_delete
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_delete($account) {
     $edit = array();
@@ -227,7 +209,6 @@ function lc_connector_user_delete($account) {
  *
  * @hook   user_role_delete
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_role_delete($role) {
     $roles = array($role);
@@ -244,7 +225,6 @@ function lc_connector_user_role_delete($role) {
  *
  * @hook   user_login
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_login(array &$edit, \stdClass $account, $category) {
     return LCConnector_Handler::callSafely('Profile', 'performAction', array('login', &$edit, $account, $category));
@@ -257,7 +237,6 @@ function lc_connector_user_login(array &$edit, \stdClass $account, $category) {
  *
  * @hook   user_logout
  * @return void
- * @since  1.0.0
  */
 function lc_connector_user_logout(\stdClass $account) {
     $edit = array();
@@ -273,7 +252,6 @@ function lc_connector_user_logout(\stdClass $account) {
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_user_login_block_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Customer', 'alterLoginForm', array(&$form, &$form_state));
@@ -286,7 +264,6 @@ function lc_connector_form_user_login_block_alter(array &$form, array &$form_sta
  *
  * @hook   js_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_js_alter(array &$javascript) {
     return LCConnector_Handler::callSafely('Module', 'optimizeJSFiles', array(&$javascript));
@@ -299,7 +276,6 @@ function lc_connector_js_alter(array &$javascript) {
  *
  * @hook   css_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_css_alter(array &$css) {
     return LCConnector_Handler::callSafely('Module', 'optimizeCSSFiles', array(&$css));
@@ -314,7 +290,6 @@ function lc_connector_css_alter(array &$css) {
  *
  * @hook   url_outbound_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_url_outbound_alter(&$path, array &$options, $original_path) {
     LCConnector_Handler::callSafely('Module', 'translateOutboundURL', array(&$path, &$options, $original_path));
@@ -329,7 +304,6 @@ function lc_connector_url_outbound_alter(&$path, array &$options, $original_path
  *
  * @hook   url_inbound_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_url_inbound_alter(&$path, $original_path, $path_language) {
     LCConnector_Handler::callSafely('Module', 'translateInboundURL', array(&$path, $original_path, $path_language));
@@ -340,7 +314,6 @@ function lc_connector_url_inbound_alter(&$path, $original_path, $path_language) 
  *
  * @hook   cron
  * @return void
- * @since  1.0.0
  */
 function lc_connector_cron() {
     LCConnector_Handler::callSafely('Module', 'runCronTasks');
@@ -351,7 +324,6 @@ function lc_connector_cron() {
  *
  * @hook   permission
  * @return array
- * @since  1.0.0
  */
 function lc_connector_permission() {
     return array('lc admin' => array('title' => t('LiteCommerce administrator')));
@@ -365,7 +337,6 @@ function lc_connector_permission() {
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_user_profile_form_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Admin', 'alterUserProfileForm', array(&$form, &$form_state));
@@ -379,7 +350,6 @@ function lc_connector_form_user_profile_form_alter(array &$form, array &$form_st
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_user_register_form_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Admin', 'alterUserRegisterForm', array(&$form, &$form_state));
@@ -392,7 +362,6 @@ function lc_connector_form_user_register_form_alter(array &$form, array &$form_s
  *
  * @hook   template_process_page
  * @return void
- * @since  1.0.0
  */
 function lc_connector_process_page(array &$variables) {
     return LCConnector_Handler::callSafely('Controller', 'updateTemplateVars', array(&$variables));
@@ -405,7 +374,6 @@ function lc_connector_process_page(array &$variables) {
  *
  * @hook   html_head_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_html_head_alter(array &$elements) {
     LCConnector_Handler::callSafely('Controller', 'updateMetaTags', array(&$elements));
@@ -419,7 +387,6 @@ function lc_connector_html_head_alter(array &$elements) {
  *
  * @hook   form_FORM_ID_alter
  * @return void
- * @since  1.0.0
  */
 function lc_connector_form_user_admin_permissions_alter(array &$form, array &$form_state) {
     return LCConnector_Handler::callSafely('Admin', 'alterUserPermissionsForm', array(&$form, &$form_state));
@@ -437,7 +404,6 @@ function lc_connector_form_user_admin_permissions_alter(array &$form, array &$fo
  * Or it's not needed to check anything here at all
  *
  * @return boolean
- * @since  1.0.0
  */
 function lc_connector_check_controller_access() {
     return is_null($result = LCConnector_Handler::callSafely('Controller', 'checkAccess')) ? TRUE : $result;

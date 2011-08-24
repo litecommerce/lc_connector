@@ -5,19 +5,12 @@
  * @file
  * Installation process handler
  *
- * @category  Litecommerce connector
- * @package   Litecommerce connector
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @link      http://www.litecommerce.com/
- * @since     1.0.0
  */
 
 /**
  * Install
- *
- * @since 1.0.0
  */
 abstract class LCConnector_Install extends LCConnector_Abstract {
 
@@ -25,7 +18,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Database params (cache)
      *
      * @var   array
-     * @since 1.0.0
      */
     protected static $dbParams;
 
@@ -36,7 +28,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Get module tables schema
      *
      * @return array
-     * @since  1.0.0
      */
     public static function getSchema() {
         return array(
@@ -82,7 +73,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Perform install
      *
      * @return void
-     * @since  1.0.0
      */
     public static function performInstall() {
         $description = array(
@@ -100,7 +90,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Perform uninstall
      *
      * @return void
-     * @since  1.0.0
      */
     public static function performUninstall() {
         db_drop_field('block_custom', 'lc_class');
@@ -112,7 +101,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * @param string $phase Installation type
      *
      * @return array
-     * @since  1.0.0
      */
     public static function checkRequirements($phase) {
         if (self::includeLCFiles()) {
@@ -137,7 +125,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Returns Drupal URL (original drupal_detect_baseurl() corrected to support aliases)
      *
      * @return string
-     * @since  1.0.0
      */
     public static function getDrupalBaseURL() {
         $url = drupal_detect_baseurl();
@@ -157,7 +144,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Trying to include installation scripts
      *
      * @return string
-     * @since  1.0.0
      */
     public static function includeLCFiles() {
         if (!defined('XLITE_INSTALL_MODE')) {
@@ -187,7 +173,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Returns an array of database connection parameters
      *
      * @return array
-     * @since  1.0.0
      */
     public static function getDatabaseParams() {
         if (!isset(self::$dbParams)) {
@@ -233,7 +218,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Check requirements in update mode ($phase != 'install')
      *
      * @return array
-     * @since  1.0.0
      */
     protected static function checkRequirementsUpdate() {
         $requirements = array();
@@ -256,7 +240,6 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
      * Check requirements in install mode ($phase == 'install')
      *
      * @return array
-     * @since  1.0.0
      */
     protected static function checkRequirementsInstall() {
         $requirements = array();

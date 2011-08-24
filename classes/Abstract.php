@@ -5,19 +5,12 @@
  * @file
  * Base class for all handlers
  *
- * @category  Litecommerce connector
- * @package   Litecommerce connector
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @link      http://www.litecommerce.com/
- * @since     1.0.0
  */
 
 /**
  * Abstract
- *
- * @since 1.0.0
  */
 abstract class LCConnector_Abstract {
 
@@ -25,7 +18,6 @@ abstract class LCConnector_Abstract {
      * Data from the module .info file
      *
      * @var   array
-     * @since 1.0.0
      */
     protected static $moduleInfo;
 
@@ -33,7 +25,6 @@ abstract class LCConnector_Abstract {
      * Flag; if LC "top.inc.php" is included
      *
      * @var   boolean
-     * @since 1.0.0
      */
     protected static $isLCConnected;
 
@@ -41,7 +32,6 @@ abstract class LCConnector_Abstract {
      * Container to store some temporary data
      *
      * @var   array
-     * @since 1.0.0
      */
     protected static $tmpData;
 
@@ -55,7 +45,6 @@ abstract class LCConnector_Abstract {
      * @param mixed  $value Variable value
      *
      * @return void
-     * @since  1.0.0
      */
     public static function saveVariable($name, $value) {
         self::$tmpData[$name] = $value;
@@ -68,7 +57,6 @@ abstract class LCConnector_Abstract {
      * @param mixed  $defaultValue Default value
      *
      * @return mixed
-     * @since  1.0.0
      */
     public static function getVariable($name, $defaultValue = NULL) {
         return (isset(self::$tmpData[$name])) ? self::$tmpData[$name] : $defaultValue;
@@ -82,7 +70,6 @@ abstract class LCConnector_Abstract {
      * Return path to LC installation (from settings or default)
      *
      * @return string
-     * @since  1.0.0
      */
     public static function getLCDir() {
         return variable_get('lc_dir', self::getModuleInfo('lc_dir_default'));
@@ -92,7 +79,6 @@ abstract class LCConnector_Abstract {
      * Return absolute path to LC installation
      *
      * @return string
-     * @since  1.0.0
      */
     public static function getLCCanonicalDir() {
         return self::getCanonicalDir(self::getLCDir());
@@ -104,7 +90,6 @@ abstract class LCConnector_Abstract {
      * @param string $dir Dir to prepare
      *
      * @return string
-     * @since  1.0.0
      */
     protected static function getCanonicalDir($dir) {
         return rtrim(realpath($dir), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -114,7 +99,6 @@ abstract class LCConnector_Abstract {
      * Return full path to the LC top inc file
      *
      * @return string
-     * @since  1.0.0
      */
     protected static function getLCTopIncFile() {
         return self::getLCCanonicalDir() . 'top.inc.php';
@@ -126,7 +110,6 @@ abstract class LCConnector_Abstract {
      * @param string $field Name of the field to retrieve
      *
      * @return array|string
-     * @since  1.0.0
      */
     protected static function getModuleInfo($field = NULL) {
         if (!isset(self::$moduleInfo)) {
@@ -142,7 +125,6 @@ abstract class LCConnector_Abstract {
      * Check if we can connect to LiteCommerce
      *
      * @return boolean
-     * @since  1.0.0
      */
     public static function isLCExists() {
         return file_exists(self::getLCTopIncFile());
@@ -152,7 +134,6 @@ abstract class LCConnector_Abstract {
      * Check if we already connected to LiteCommerce
      *
      * @return boolean
-     * @since  1.0.0
      */
     protected static function isLCConnected() {
         if (!isset(self::$isLCConnected) && (self::$isLCConnected = self::isLCExists())) {
@@ -174,7 +155,6 @@ abstract class LCConnector_Abstract {
      * @param array   $args   Call arguments
      *
      * @return mixed
-     * @since  1.0.0
      */
     public static function callDirectly($class, $method, array $args = array()) {
         return call_user_func_array(array(self::getLCClassInstance($class), $method), $args);
@@ -188,7 +168,6 @@ abstract class LCConnector_Abstract {
      * @param array   $args   Call arguments
      *
      * @return mixed
-     * @since  1.0.0
      */
     public static function callSafely($class, $method, array $args = array()) {
         return self::isLCConnected() ? self::callDirectly($class, $method, $args) : NULL;
@@ -200,7 +179,6 @@ abstract class LCConnector_Abstract {
      * @param string $class Base part of a sigleton class name
      *
      * @return \XLite\Module\CDev\DrupalConnector\Drupal\ADrupal
-     * @since  1.0.0
      */
     protected static function getLCClassInstance($class) {
         return call_user_func(array('\XLite\Module\CDev\DrupalConnector\Drupal\\' . $class, 'getInstance'));

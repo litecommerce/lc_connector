@@ -5,19 +5,12 @@
  * @file
  * Admin area handler
  *
- * @category  Litecommerce connector
- * @package   Litecommerce connector
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @link      http://www.litecommerce.com/
- * @since     1.0.0
  */
 
 /**
  * Admin
- *
- * @since 1.0.0
  */
 abstract class LCConnector_Admin extends LCConnector_Abstract {
 
@@ -31,7 +24,6 @@ abstract class LCConnector_Admin extends LCConnector_Abstract {
      * Return form description for the module settings
      *
      * @return array
-     * @since  1.0.0
      */
     public static function getModuleSettingsForm() {
         variable_del('lc_user_sync_notify');
@@ -79,7 +71,6 @@ abstract class LCConnector_Admin extends LCConnector_Abstract {
      * @param array &$formState Form state
      *
      * @return void
-     * @since  1.0.0
      */
     public static function validateModuleSettingsForm(array &$form, array &$formState) {
         $message = NULL;
@@ -120,7 +111,6 @@ abstract class LCConnector_Admin extends LCConnector_Abstract {
      * @param array &$formState Form state
      *
      * @return void
-     * @since  1.0.0
      */
     public static function submitModuleSettingsForm(array &$form, array &$formState) {
         switch ($formState['values']['op']) {

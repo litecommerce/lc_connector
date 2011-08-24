@@ -5,13 +5,8 @@
  * @file
  * Installation routines
  *
- * @category  Litecommerce connector
- * @package   Litecommerce connector
  * @author    Creative Development LLC <info@cdev.ru>
  * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2
- * @link      http://www.litecommerce.com/
- * @since     1.0.0
  */
 
 /**
@@ -19,7 +14,6 @@
  *
  * @hook   schema
  * @return void
- * @since  1.0.0
  */
 function lc_connector_schema() {
     return LCConnector_Install::getSchema();
@@ -30,7 +24,6 @@ function lc_connector_schema() {
  *
  * @hook   install
  * @return void
- * @since  1.0.0
  */
 function lc_connector_install() {
     LCConnector_Install::performInstall();
@@ -41,7 +34,6 @@ function lc_connector_install() {
  *
  * @hook   uninstall
  * @return void
- * @since  1.0.0
  */
 function lc_connector_uninstall() {
     LCConnector_Install::performUninstall();
@@ -54,7 +46,6 @@ function lc_connector_uninstall() {
  *
  * @hook   requirements
  * @return array
- * @since  1.0.0
  */
 function lc_connector_requirements($phase) {
     return LCConnector_Install::checkRequirements($phase);

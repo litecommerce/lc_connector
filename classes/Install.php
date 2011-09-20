@@ -224,6 +224,8 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
 
         if (!isLiteCommerceInstalled(self::getDatabaseParams(), $message)) {
             $requirements['lc_not_installed'] = array(
+                'title'       => st('LiteCommerce installation status'),
+                'value'       => $message,
                 'description' => st(
                     'The installed LiteCommerce software not found. '
                     . 'It is required to install LiteCommerce and specify correct path '

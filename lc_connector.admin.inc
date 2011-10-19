@@ -1,5 +1,5 @@
 <?php
-// vim: set ts=4 sw=4 sts=4 et ft=php:
+// vim: set ts=2 sw=2 sts=2 et ft=php:
 
 /**
  * @file
@@ -36,7 +36,7 @@
  * @return array
  */
 function lc_connector_get_settings_form() {
-    return LCConnector_Admin::getModuleSettingsForm();
+  return LCConnector_Admin::getModuleSettingsForm();
 }
 
 /**
@@ -47,13 +47,13 @@ function lc_connector_get_settings_form() {
  *
  * This method is used to validate LC Connector module settings form.
  *
- * @param array &$form       Form description
- * @param array &$form_state Form state
- *
- * @return void
+ * @param array &$form
+ *   Form description
+ * @param array &$form_state
+ *   Form state
  */
 function lc_connector_validate_settings_form(array &$form, array &$form_state) {
-    return LCConnector_Admin::validateModuleSettingsForm($form, $form_state);
+  return LCConnector_Admin::validateModuleSettingsForm($form, $form_state);
 }
 
 /**
@@ -64,11 +64,11 @@ function lc_connector_validate_settings_form(array &$form, array &$form_state) {
  *
  * This method is used to process a submit of LC Connector module settings form.
  *
- * @param array &$form       Form description
- * @param array &$form_state Form state
- *
- * @return void
+ * @param array &$form
+ *   Form description
+ * @param array &$form_state
+ *   Form state
  */
 function lc_connector_submit_settings_form(array &$form, array &$form_state) {
-    return LCConnector_Admin::submitModuleSettingsForm($form, $form_state);
+  return LCConnector_Admin::submitModuleSettingsForm($form, $form_state);
 }

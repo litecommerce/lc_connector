@@ -1,5 +1,5 @@
 <?php
-// vim: set ts=4 sw=4 sts=4 et ft=php:
+// vim: set ts=2 sw=2 sts=2 et ft=php:
 
 /**
  * @file
@@ -23,70 +23,68 @@
  */
 
 /**
- * Module tables schema
+ * Module tables schema.
  *
  * The method LCConnector_Install::getSchema() is located in
  * lc_connector/classes/Install.php
  *
- * This method returns a database schema for module installation
+ * This method returns a database schema for module installation.
  *
- * @hook   schema
- * @return void
+ * @hook schema
  */
 function lc_connector_schema() {
-    return LCConnector_Install::getSchema();
+  return LCConnector_Install::getSchema();
 }
 
 /**
- * Install module
+ * Install module.
  *
  * The method LCConnector_Install::performInstall() is located in
  * lc_connector/classes/Install.php
  *
- * This method performs a module installation
+ * This method performs a module installation.
  *
- * @hook   install
- * @return void
+ * @hook install
  */
 function lc_connector_install() {
-    LCConnector_Install::performInstall();
+  LCConnector_Install::performInstall();
 }
 
 /**
- * Uninstall module
+ * Uninstall module.
  *
  * The method LCConnector_Install::performUninstall() is located in
  * lc_connector/classes/Install.php
  *
  * This method performs a module uninstallation
  *
- * @hook   uninstall
- * @return void
+ * @hook uninstall
  */
 function lc_connector_uninstall() {
-    LCConnector_Install::performUninstall();
+  LCConnector_Install::performUninstall();
 }
 
 /**
- * Implementation hook_requirements()
+ * Implementation hook_requirements().
  *
  * The method LCConnector_Install::checkRequirements() is located in
  * lc_connector/classes/Install.php
  *
- * This method performs checking of LiteCommerce system requirements
+ * This method performs checking of LiteCommerce system requirements.
  *
- * @param string $phase Installation type
+ * @param string $phase
+ *   Installation phase
  *
  * @hook   requirements
  * @return array
  */
 function lc_connector_requirements($phase) {
-    return LCConnector_Install::checkRequirements($phase);
+  return LCConnector_Install::checkRequirements($phase);
 }
 
 // Include some scripts if not loaded yet
 if (!class_exists('LCConnector_Install')) {
-    $current_dir = dirname(__FILE__);
-    require_once $current_dir . '/classes/Abstract.php';
-    require_once $current_dir . '/classes/Install.php';
+  $current_dir = dirname(__FILE__);
+  require_once $current_dir . '/classes/Abstract.php';
+  require_once $current_dir . '/classes/Install.php';
 }

@@ -10,7 +10,25 @@
  */
 
 /**
+ * Since the integration code highly depends on the LiteCommerce version being
+ * integrated, this Drupal module only forwards Drupal hooks into a
+ * LiteCommerce doing the actual work. That way shop owners can upgrade both
+ * LiteCommerce and the integration code at once via the LiteCommerce automatic
+ * upgrade function within the shop back end.
+ *
+ * The back side of this is the use of complex wrapper functions for Drupal
+ * hooks. To prevent possible issues, get rid of global variables and make the
+ * interface easier to understand the wrapper logic is localized in PHP classes
+ * with private and protected class methods and static fields.
+ */
+
+/**
  * Module tables schema
+ *
+ * The method LCConnector_Install::getSchema() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method returns a database schema for module installation
  *
  * @hook   schema
  * @return void
@@ -22,6 +40,11 @@ function lc_connector_schema() {
 /**
  * Install module
  *
+ * The method LCConnector_Install::performInstall() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method performs a module installation
+ *
  * @hook   install
  * @return void
  */
@@ -32,6 +55,11 @@ function lc_connector_install() {
 /**
  * Uninstall module
  *
+ * The method LCConnector_Install::performUninstall() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method performs a module uninstallation
+ *
  * @hook   uninstall
  * @return void
  */
@@ -41,6 +69,11 @@ function lc_connector_uninstall() {
 
 /**
  * Implementation hook_requirements()
+ *
+ * The method LCConnector_Install::checkRequirements() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method performs checking of LiteCommerce system requirements
  *
  * @param string $phase Installation type
  *

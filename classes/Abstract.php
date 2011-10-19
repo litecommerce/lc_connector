@@ -10,6 +10,19 @@
  */
 
 /**
+ * Since the integration code highly depends on the LiteCommerce version being
+ * integrated, this Drupal module only forwards Drupal hooks into a
+ * LiteCommerce doing the actual work. That way shop owners can upgrade both
+ * LiteCommerce and the integration code at once via the LiteCommerce automatic
+ * upgrade function within the shop back end.
+ *
+ * The back side of this is the use of complex wrapper functions for Drupal
+ * hooks. To prevent possible issues, get rid of global variables and make the
+ * interface easier to understand the wrapper logic is localized in PHP classes
+ * with private and protected class methods and static fields.
+ */
+
+/**
  * Abstract
  */
 abstract class LCConnector_Abstract {
@@ -22,7 +35,7 @@ abstract class LCConnector_Abstract {
     protected static $moduleInfo;
 
     /**
-     * Flag; if LC "top.inc.php" is included
+     * True if LiteCommerce's "top.inc.php" is included
      *
      * @var   boolean
      */
@@ -64,10 +77,10 @@ abstract class LCConnector_Abstract {
 
     // }}}
 
-    // {{{ LC-related methods
+    // {{{ LiteCommerce-related methods
 
     /**
-     * Return path to LC installation (from settings or default)
+     * Return path to LiteCommerce installation (from settings or default)
      *
      * @return string
      */
@@ -76,7 +89,7 @@ abstract class LCConnector_Abstract {
     }
 
     /**
-     * Return absolute path to LC installation
+     * Return absolute path to LiteCommerce installation
      *
      * @return string
      */
@@ -96,7 +109,7 @@ abstract class LCConnector_Abstract {
     }
 
     /**
-     * Return full path to the LC top inc file
+     * Return full path to the LiteCommerce's top.inc.php file
      *
      * @return string
      */
@@ -148,7 +161,7 @@ abstract class LCConnector_Abstract {
     // {{{ Call wrappers
 
     /**
-     * Wrapper to directly call LC-dependend methods
+     * Wrapper to directly call LiteCommerce-dependend methods
      *
      * @param string  $class  Handler class name
      * @param string  $method Method to call
@@ -161,7 +174,7 @@ abstract class LCConnector_Abstract {
     }
 
     /**
-     * Wrapper to safely call LC-dependend methods
+     * Wrapper to safely call LiteCommerce-dependend methods
      *
      * @param string  $class  Handler class name
      * @param string  $method Method to call
@@ -174,7 +187,7 @@ abstract class LCConnector_Abstract {
     }
 
     /**
-     * Get instance of LC singleton
+     * Get instance of LiteCommerce singleton
      *
      * @param string $class Base part of a sigleton class name
      *

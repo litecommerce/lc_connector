@@ -9,11 +9,27 @@
  * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
  */
 
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', TRUE);
+/**
+ * Since the integration code highly depends on the LiteCommerce version being
+ * integrated, this Drupal module only forwards Drupal hooks into a
+ * LiteCommerce doing the actual work. That way shop owners can upgrade both
+ * LiteCommerce and the integration code at once via the LiteCommerce automatic
+ * upgrade function within the shop back end.
+ *
+ * The back side of this is the use of complex wrapper functions for Drupal
+ * hooks. To prevent possible issues, get rid of global variables and make the
+ * interface easier to understand the wrapper logic is localized in PHP classes
+ * with private and protected class methods and static fields.
+ */
 
 /**
  * Module initialization
+ *
+ * The method 'invokeHookInit' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method includes script which implements all callback hooks:
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Include/Callbacks.php
  *
  * @hook   init
  * @return void
@@ -24,6 +40,11 @@ function lc_connector_init() {
 
 /**
  * Navigation menu access point declaration
+ *
+ * The method 'invokeHookMenu' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method returns array of menus
  *
  * @hook   menu
  * @return array
@@ -44,6 +65,11 @@ function lc_connector_menu() {
 /**
  * Modify admin area form for new widget
  *
+ * The method 'alterWidgetModifyForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method extends 'Add block' form to allow create specific blocks based on LiteCommerce widgets
+ *
  * @param array &$form       Form description
  * @param array &$form_state Form state
  *
@@ -56,6 +82,11 @@ function lc_connector_form_block_add_block_form_alter(array &$form, array &$form
 
 /**
  * Modify admin area form for existing widget
+ *
+ * The method 'alterWidgetModifyForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method extends 'Modify block' form to allow modify specific blocks based on LiteCommerce widgets
  *
  * @param array &$form       Form description
  * @param array &$form_state Form state
@@ -70,6 +101,11 @@ function lc_connector_form_block_admin_configure_alter(array &$form, array &$for
 /**
  * Modify admin area form for widget delete confirmation
  *
+ * The method 'alterWidgetDeleteForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method adds a callback to process deleting custom block
+ *
  * @param array &$form       Form description
  * @param array &$form_state Form state
  *
@@ -82,6 +118,11 @@ function lc_connector_form_custom_block_delete_alter(array &$form, array &$form_
 
 /**
  * Change block definition before saving to the database
+ *
+ * The method 'alterBlockInfo' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method changes block definition before saving to the database
  *
  * @param array  $blocks      A multidimensional array of blocks keyed by the defining module and delta
  * @param string $theme       The theme these blocks belong to
@@ -96,6 +137,11 @@ function lc_connector_block_info_alter(array &$blocks, $theme, array $code_block
 
 /**
  * Modify block content
+ *
+ * The method 'setBlockContent' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Block.php
+ *
+ * This method set block content from LC (if needed)
  *
  * @param array     &$data      Data returned from the hook_block_view()
  * @param \stdClass $form_state Block object loaded from the database
@@ -114,6 +160,11 @@ function lc_connector_block_view_alter(array &$data, \stdClass $block) {
 /**
  * Preprocess theme variables for a specific theme block
  *
+ * The method 'addCSSClass' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Block.php
+ *
+ * This method preprocesses theme variables for a specific theme block
+ *
  * @param array &$variables The variables array (modify in place)
  *
  * @hook   preprocess_block
@@ -131,6 +182,11 @@ function lc_connector_preprocess_block(array &$variables) {
 /**
  * A user account is about to be created or updated
  *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
+ *
  * @param array     $edit     The array of form values submitted by the user
  * @param \stdClass $account  The user object on which the operation is performed
  * @param mixed     $category The active category of user information being edited
@@ -144,6 +200,11 @@ function lc_connector_user_presave(array &$edit, \stdClass $account, $category) 
 
 /**
  * A user account was created
+ *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
  *
  * @param array     $edit     The array of form values submitted by the user
  * @param \stdClass $account  The user object on which the operation is performed
@@ -161,6 +222,11 @@ function lc_connector_user_insert(array &$edit, \stdClass $account, $category) {
 /**
  * A user account was updated
  *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
+ *
  * @param array     $edit     The array of form values submitted by the user
  * @param \stdClass $account  The user object on which the operation is performed
  * @param mixed     $category The active category of user information being edited
@@ -177,6 +243,11 @@ function lc_connector_user_update(array &$edit, \stdClass $account, $category) {
 /**
  * A user account was cancelled
  *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
+ *
  * @param array     $edit     The array of form values submitted by the user
  * @param \stdClass $account  The user object on which the operation is performed
  * @param mixed     $category The active category of user information being edited
@@ -190,6 +261,11 @@ function lc_connector_user_cancel(array $edit, \stdClass $account, $category) {
 
 /**
  * A user account was deleted
+ *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
  *
  * @param \stdClass $account  The user object on which the operation is performed
  *
@@ -205,6 +281,11 @@ function lc_connector_user_delete($account) {
 /**
  * A role deleted
  *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
+ *
  * @param \stdClass $role  The role object on which the operation is performed
  *
  * @hook   user_role_delete
@@ -218,6 +299,11 @@ function lc_connector_user_role_delete($role) {
 
 /**
  * The user just logged in
+ *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
  *
  * @param array     $edit     The array of form values submitted by the user
  * @param \stdClass $account  The user object on which the operation is performed
@@ -233,6 +319,11 @@ function lc_connector_user_login(array &$edit, \stdClass $account, $category) {
 /**
  * The user just logged out
  *
+ * The method 'performAction' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Profile.php
+ *
+ * This method calls profile-specific actions
+ *
  * @param \stdClass $account The user object on which the operation is performed
  *
  * @hook   user_logout
@@ -247,6 +338,11 @@ function lc_connector_user_logout(\stdClass $account) {
 /**
  * Modify login form
  *
+ * The method 'alterLoginForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Customer.php
+ *
+ * This method make some changes to the login form
+ *
  * @param array &$form       Form description
  * @param array &$form_state Form state
  *
@@ -260,6 +356,11 @@ function lc_connector_form_user_login_block_alter(array &$form, array &$form_sta
 /**
  * Perform necessary alterations to the JavaScript before it is presented on the page
  *
+ * The method 'optimizeJSFiles' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method make some changes to optimize javscript files list
+ *
  * @param array &$javascript An array of all JavaScript being presented on the page
  *
  * @hook   js_alter
@@ -272,6 +373,11 @@ function lc_connector_js_alter(array &$javascript) {
 /**
  * Perform necessary alterations to the CSS before it is presented on the page
  *
+ * The method 'optimizeCSSFiles' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method make some changes to optimize CSS files list
+ *
  * @param array &$css An array of all CSS being presented on the page
  *
  * @hook   css_alter
@@ -283,6 +389,11 @@ function lc_connector_css_alter(array &$css) {
 
 /**
  * Alters outbound URLs
+ *
+ * The method 'translateOutboundURL' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method translate LiteCommerce URL to Drupal specific URL
  *
  * @param string &$path         The outbound path to alter
  * @param array  &$options      A set of URL options
@@ -298,6 +409,11 @@ function lc_connector_url_outbound_alter(&$path, array &$options, $original_path
 /**
  * Alters inbound URLs
  *
+ * The method 'translateInboundURL' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method translate Drupal URL to LiteCommerce URL 
+ *
  * @param string &$path         Path
  * @param string $original_path Original path
  * @param string $path_language Path language
@@ -311,6 +427,11 @@ function lc_connector_url_inbound_alter(&$path, $original_path, $path_language) 
 
 /**
  * Process cron tasks
+ *
+ * The method 'runCronTasks' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Module.php
+ *
+ * This method run LiteCommerce specific tasks
  *
  * @hook   cron
  * @return void
@@ -332,6 +453,11 @@ function lc_connector_permission() {
 /**
  * Add additional processor on submit to the form
  *
+ * The method 'alterUserProfileForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method adds callback for processing of user profile form
+ *
  * @param array &$form       Form description
  * @param array &$form_state Form state
  *
@@ -344,6 +470,11 @@ function lc_connector_form_user_profile_form_alter(array &$form, array &$form_st
 
 /**
  * Add additional processor on submit to the form
+ *
+ * The method 'alterUserProfileForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method adds callback for processing of user profile register form
  *
  * @param array &$form       Form description
  * @param array &$form_state Form state
@@ -358,6 +489,11 @@ function lc_connector_form_user_register_form_alter(array &$form, array &$form_s
 /**
  * Update variables array passed to the template
  *
+ * The method 'updateTemplateVars' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Controller.php
+ *
+ * This method updates some variables before they pass to the template
+ *
  * @param array &$variables Array of variables
  *
  * @hook   template_process_page
@@ -369,6 +505,11 @@ function lc_connector_process_page(array &$variables) {
 
 /**
  * Update meta tags array passed to the template
+ *
+ * The method 'updateMetaTags' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Controller.php
+ *
+ * This method updates meta tags array before this pass to the template
  *
  * @param array &$elements Array of meta tags
  *
@@ -382,6 +523,11 @@ function lc_connector_html_head_alter(array &$elements) {
 /**
  * Add additional processor on submit to the form
  *
+ * The method 'alterUserPermissionsForm' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Admin.php
+ *
+ * This method adds callback for processing of user permissions form
+ *
  * @param array &$form       Form description
  * @param array &$form_state Form state
  *
@@ -394,6 +540,11 @@ function lc_connector_form_user_admin_permissions_alter(array &$form, array &$fo
 
 /**
  * Check access for current LC controller
+ *
+ * The method 'checkAccess' is located in LiteCommerce classes and can be found at
+ * <lc-dir>/classes/XLite/Module/CDev/DrupalConnector/Drupal/Controller.php
+ *
+ * This method returns true or false depending on user access level withi LiteCommerce
  *
  * FIXME: Drupal calls this function before the module is initialized.
  * So, we cannot move it into the "Include/Callbacks.php".

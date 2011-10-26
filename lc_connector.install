@@ -1,5 +1,5 @@
 <?php
-// vim: set ts=4 sw=4 sts=4 et ft=php:
+// vim: set ts=2 sw=2 sts=2 et ft=php:
 
 /**
  * @file
@@ -10,50 +10,81 @@
  */
 
 /**
- * Module tables schema
+ * Since the integration code highly depends on the LiteCommerce version being
+ * integrated, this Drupal module only forwards Drupal hooks into a
+ * LiteCommerce doing the actual work. That way shop owners can upgrade both
+ * LiteCommerce and the integration code at once via the LiteCommerce automatic
+ * upgrade function within the shop back end.
  *
- * @hook   schema
- * @return void
+ * The back side of this is the use of complex wrapper functions for Drupal
+ * hooks. To prevent possible issues, get rid of global variables and make the
+ * interface easier to understand the wrapper logic is localized in PHP classes
+ * with private and protected class methods and static fields.
+ */
+
+/**
+ * Module tables schema.
+ *
+ * The method LCConnector_Install::getSchema() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method returns a database schema for module installation.
+ *
+ * @hook schema
  */
 function lc_connector_schema() {
-    return LCConnector_Install::getSchema();
+  return LCConnector_Install::getSchema();
 }
 
 /**
- * Install module
+ * Install module.
  *
- * @hook   install
- * @return void
+ * The method LCConnector_Install::performInstall() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method performs a module installation.
+ *
+ * @hook install
  */
 function lc_connector_install() {
-    LCConnector_Install::performInstall();
+  LCConnector_Install::performInstall();
 }
 
 /**
- * Uninstall module
+ * Uninstall module.
  *
- * @hook   uninstall
- * @return void
+ * The method LCConnector_Install::performUninstall() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method performs a module uninstallation
+ *
+ * @hook uninstall
  */
 function lc_connector_uninstall() {
-    LCConnector_Install::performUninstall();
+  LCConnector_Install::performUninstall();
 }
 
 /**
- * Implementation hook_requirements()
+ * Implementation hook_requirements().
  *
- * @param string $phase Installation type
+ * The method LCConnector_Install::checkRequirements() is located in
+ * lc_connector/classes/Install.php
+ *
+ * This method performs checking of LiteCommerce system requirements.
+ *
+ * @param string $phase
+ *   Installation phase
  *
  * @hook   requirements
  * @return array
  */
 function lc_connector_requirements($phase) {
-    return LCConnector_Install::checkRequirements($phase);
+  return LCConnector_Install::checkRequirements($phase);
 }
 
 // Include some scripts if not loaded yet
 if (!class_exists('LCConnector_Install')) {
-    $current_dir = dirname(__FILE__);
-    require_once $current_dir . '/classes/Abstract.php';
-    require_once $current_dir . '/classes/Install.php';
+  $current_dir = dirname(__FILE__);
+  require_once $current_dir . '/classes/Abstract.php';
+  require_once $current_dir . '/classes/Install.php';
 }

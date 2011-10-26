@@ -408,3 +408,27 @@ function lc_connector_form_user_admin_permissions_alter(array &$form, array &$fo
 function lc_connector_check_controller_access() {
     return is_null($result = LCConnector_Handler::callSafely('Controller', 'checkAccess')) ? TRUE : $result;
 }
+
+
+/**
+ * Provide information on the type of links this module provides.
+ *
+ * @return array
+ *
+ * @see hook_entity_info()
+ * @see hook_entity_info_alter()
+ */
+function lc_connector_xmlsitemap_link_info() {
+    $info = LCConnector_Handler::callSafely('Controller', 'getXMLSitemapLinkInfo');
+    return $info ?: array();
+}
+
+/**
+ * Rebuild callback for XML sitemap module
+ *
+ * @return array
+ */
+function lc_connector_xmlsitemap_rebuild_callback() {
+    return LCConnector_Handler::callSafely('Controller', 'generateXMLSitemapLinks');
+}
+

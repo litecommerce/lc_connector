@@ -4,9 +4,6 @@
 /**
  * @file
  * General module functionality
- *
- * @author    Creative Development LLC <info@cdev.ru>
- * @copyright Copyright (c) 2011 Creative Development LLC <info@cdev.ru>. All rights reserved
  */
 
 /**
@@ -592,8 +589,9 @@ function lc_connector_check_controller_access() {
  * @see hook_entity_info_alter()
  */
 function lc_connector_xmlsitemap_link_info() {
-    $info = LCConnector_Handler::callSafely('Controller', 'getXMLSitemapLinkInfo');
-    return $info ?: array();
+  $info = LCConnector_Handler::callSafely('Controller', 'getXMLSitemapLinkInfo');
+
+  return $info ?: array();
 }
 
 /**
@@ -602,6 +600,6 @@ function lc_connector_xmlsitemap_link_info() {
  * @return array
  */
 function lc_connector_xmlsitemap_rebuild_callback() {
-    return LCConnector_Handler::callSafely('Controller', 'generateXMLSitemapLinks');
+  return LCConnector_Handler::callSafely('Controller', 'generateXMLSitemapLinks');
 }
 

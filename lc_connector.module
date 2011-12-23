@@ -605,3 +605,32 @@ function lc_connector_xmlsitemap_rebuild_callback() {
     return LCConnector_Handler::callSafely('Controller', 'generateXMLSitemapLinks');
 }
 
+/**
+ * Add namespaces for RDF mappings.
+ *
+ * @return
+ *   An associative array of namespaces where the key is the namespace prefix
+ *   and the value is the namespace URI.
+ *
+ * @see hook_rdf_namespaces
+ */
+function lc_connector_rdf_namespaces() {
+  return LCConnector_Handler::callSafely('Controller', 'getRDFNamespaces');
+}
+
+/**
+ * Preprocess function for html.tpl.php
+ *
+ * @param array $vars
+ *   Array of variables.
+ */
+function lc_connector_preprocess_html(array &$vars)
+{
+  $prefixes = LCConnector_Handler::callSafely('Controller', 'getHeadPrefixes');
+
+  $prefixesAssembled = array();
+  foreach ($prefixes as $name => $url) {
+    $prefixesAssembled[] = $name . ': ' . $url;
+  }
+  $vars['head_prefixes'] = $prefixesAssembled ? implode(' ', $prefixesAssembled) : '';
+}

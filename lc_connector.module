@@ -151,7 +151,7 @@ function lc_connector_block_info_alter(array &$blocks, $theme, array $code_block
  *
  * @hook block_view_alter
  */
-function lc_connector_block_view_alter(array &$data, \stdClass $block) {
+function lc_connector_block_view_alter(&$data, \stdClass $block) {
   $settings = block_custom_block_get($block->delta);
 
   if (!empty($settings['lc_class']) && !LCConnector_Handler::callSafely('Block', 'setBlockContent', array(&$data, $block))) {

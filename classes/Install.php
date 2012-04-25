@@ -289,7 +289,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
 
       if (!$stopChecking) {
         if (!defined('LC_URI')) {
-          define('LC_URI', preg_replace('/\/install(\.php).*$/', '', request_uri()) . '/modules/lc_connector/litecommerce');
+          define('LC_URI', preg_replace('/\/install(\.php).*$/', '', request_uri()) . '/litecommerce');
         }
 
         if (!defined('DB_URL') && !empty($dbParams)) {

@@ -141,7 +141,9 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
     }
 
     if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] !== $_SERVER['SERVER_NAME']) {
-      $url = str_replace(parse_url($url, PHP_URL_HOST), $_SERVER['HTTP_HOST'], $url);
+      $parts = parse_url($url);
+      $pattern = $parts['host'] . (empty($parts['port']) ? '' : ':' . $parts['port']);
+      $url = str_replace($pattern, $_SERVER['HTTP_HOST'], $url);
     }
 
     return rtrim($url, '/');

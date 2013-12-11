@@ -202,6 +202,7 @@ abstract class LCConnector_Install extends LCConnector_Abstract {
         self::$dbParams['mysqlport'] = isset($mysql['port']) ? $mysql['port'] : '';
         self::$dbParams['mysqlsock'] = isset($mysql['unix_socket']) ? $mysql['unix_socket'] : '';
         self::$dbParams['mysqlbase'] = $mysql['database'];
+        self::$dbParams['mysqlprefix'] = 'xlite_';
 
         if (isset($mysql['db_prefix'])) {
           self::$dbParams['drupal_prefix'] = $mysql['db_prefix'];
